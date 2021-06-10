@@ -1,13 +1,13 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-4">
+      <div class="col-3">
         <PokemonList v-for="pokemon in state.pokemons" :key="pokemon.name" :poke-prop="pokemon" />
       </div>
-      <div class="col-4 mt-4 text-center" v-if="state.activePokemon">
+      <div class="col-6 mt-4 text-center" v-if="state.activePokemon">
         <ActivePokemon :poke-prop="state.activePokemon" />
       </div>
-      <div class="col-4" v-if="state.myPokemon">
+      <div class="col-3" v-if="state.myPokemon">
         <PokemonList v-for="pokemon in state.myPokemon" :key="pokemon.name" :poke-prop="pokemon" />
       </div>
     </div>
