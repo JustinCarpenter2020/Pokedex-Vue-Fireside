@@ -17,10 +17,10 @@
 </template>
 
 <script>
-import { reactive } from '@vue/reactivity'
+import { reactive, computed } from 'vue'
 import { pokemonService } from '../services/PokemonService'
-import { computed } from '@vue/runtime-core'
 import { AppState } from '../AppState'
+import Notification from '../utils/Notification'
 export default {
   props: { pokeProp: { type: Object, required: true } },
   name: 'ActivePokemon',
@@ -34,8 +34,10 @@ export default {
       catchPokemon(name) {
         pokemonService.catchPokemon(name)
       },
-      removePokemon(name) {
-        pokemonService.removePokemon(name)
+      async removePokemon(name) {
+        if (await Notification.confirmAction('Are you sure you want to release' + name)) {
+          pokemonService.removePokemon(name)
+        }
       }
     }
   },
