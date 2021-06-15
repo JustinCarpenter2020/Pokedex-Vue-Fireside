@@ -1,6 +1,14 @@
 <template>
   <div class="container-fluid">
-    <div class="row">
+    <!-- //NOTE added this row to display the button for searching for a pokemon -->
+    <div class="row mt-3 text-center">
+      <div class="col-12">
+        <button @click="search" class="btn btn-info">
+          Search For Pokemon!
+        </button>
+      </div>
+    </div>
+    <div class="row mt-4">
       <div class="col-3">
         <PokemonList v-for="pokemon in state.pokemons" :key="pokemon.name" :poke-prop="pokemon" />
       </div>
@@ -18,6 +26,8 @@
 import { onMounted, computed, reactive } from 'vue'
 import { pokemonService } from '../services/PokemonService'
 import { AppState } from '../AppState'
+import Notification from '../utils/Notification'
+
 export default {
   name: 'Home',
   setup() {
@@ -29,7 +39,12 @@ export default {
     onMounted(() => {
       pokemonService.getPokemon()
     })
-    return { state }
+    return {
+      state,
+      search() {
+        Notification.search()
+      }
+    }
   }
 }
 </script>

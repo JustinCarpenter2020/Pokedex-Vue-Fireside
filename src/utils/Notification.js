@@ -30,6 +30,41 @@ export default class Notification {
     }
   }
 
+  static async search() {
+    Swal.fire({
+      title: 'whose that pokemon?',
+      input: 'text',
+      inputAttributes: {
+        autocapitalize: 'off'
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Look up',
+      showLoaderOnConfirm: true,
+      preConfirm: (pokemon) => {
+        return fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon.toLowerCase()}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(response.statusText)
+            }
+            return response.json()
+          })
+          .catch(error => {
+            Swal.showValidationMessage(
+              `Request failed: ${error}`
+            )
+          })
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: `itttts ${result.value.name}!`,
+          imageUrl: result.value.sprites.front_shiny
+        })
+      }
+    })
+  }
+
   /**
  *
  * @param {string} title The title text
@@ -40,7 +75,7 @@ export default class Notification {
  * -----------------------------------
  * {@link https://sweetalert2.github.io/#configuration|Check out Sweet Alerts}
  */
-  static toast(title = 'Warning!', display = 'warning', position = 'top-end', timer = 3000, progressBar = true) {
+  static toast(title = 'Warning!', display = 'warning', position = 'top-end', timer = 1000, progressBar = true) {
     Swal.fire({
       title: title,
       icon: display,
